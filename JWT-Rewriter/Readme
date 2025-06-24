@@ -1,0 +1,93 @@
+
+# 🔐 JWT Tampering Toolkit
+
+This repository provides two Python scripts to help demonstrate JWT-related vulnerabilities in CTFs, security labs, and educational testing.
+
+> ⚠️ **For educational purposes only. Do not use against systems you do not own or have permission to test.**
+
+---
+
+## 📁 Scripts
+
+---
+
+### 1. `jwt_resign.py`
+
+**Description:**
+Re-signs a JWT token using a known secret key. Useful when the application uses `HS256` and the secret is known or guessed (e.g., `"secret"`).
+
+#### 🔧 Usage:
+
+```bash
+python jwt_resign.py
+```
+
+#### 🔤 What it does:
+
+* Decodes the original JWT
+* Modifies the payload (e.g., changes role to `admin`)
+* Re-signs it with the given key and algorithm (`HS256`)
+
+#### 🔗 Requirements:
+
+```bash
+pip install pyjwt
+```
+
+---
+
+### 2. `jwt_none_alg.py`
+
+**Description:**
+Generates a JWT with `alg: none` and no signature. This exploits insecure servers that disable signature checks when `alg=none` is specified.
+
+#### 🔧 Usage:
+
+```bash
+python jwt_none_alg.py
+```
+
+#### 🔤 What it does:
+
+* Creates a new JWT with `alg: none`
+* Adds custom payload (e.g., escalate privileges)
+* Omits the signature entirely
+
+#### 🔗 Requirements:
+
+No external dependencies (uses built-in `json` and `base64`)
+
+---
+
+## 🔬 Example Output
+
+### JWT with secret re-signing (`HS256`):
+
+```
+[+] Modified JWT:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+### JWT with `alg: none`:
+
+```
+[+] JWT with alg=none:
+eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJ1c2VybmFtZSI6ImNhcmxvcyIsInJvbGUiOiJhZG1pbiJ9.
+```
+
+---
+
+## 🛡️ When to Use
+
+| Scenario                      | Script            |
+| ----------------------------- | ----------------- |
+| Known secret (HS256)          | `jwt_resign.py`   |
+| Insecure `alg: none` handling | `jwt_none_alg.py` |
+
+---
+
+## 💥 Disclaimer
+
+These scripts are for **training**, **PortSwigger labs**, **HackTheBox**, or **your own systems**.
+**Never use** these tools in unauthorized environments.
+
